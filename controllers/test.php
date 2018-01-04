@@ -1,18 +1,16 @@
 <?php
 include('includes/classSimpleImage.php');
 Class Controller_Test Extends Controller_Base {
-	
 	public $layouts = "first_layouts";
 	
 	function index() {
 		session_start();
-if(!isset($_SESSION["session_username"])){
-$_SESSION['session_username']="default_user";
-} else {
-$_SESSION['session_username']=$_SESSION['session_username'];
-}
-			$this->template->view('index');
-	
+		if(!isset($_SESSION["session_username"])){
+			$_SESSION['session_username']="default_user";
+		} else {
+			$_SESSION['session_username']=$_SESSION['session_username'];
+		}
+		$this->template->view('index');
 	}
 	
 	function logout(){
@@ -45,17 +43,12 @@ $_SESSION['session_username']=$_SESSION['session_username'];
 				echo "<div class=\"alert alert-danger\" role=\"alert\">Запрещённый тип файла.</div>";
 			} else {
 				if (!@copy($_FILES['task_file']['tmp_name'], $uploaddir . ($query2->num_rows+1) . "_img.jpeg")){
-
-				} else {
-					//echo "<div class=\"alert alert-danger\" role=\"alert\">Не удалось загрузить файл на сервер.</div>";
-				}
+				} 
 				$sql="INSERT INTO tasks
 					(name, email, text, picture, status)  
 					VALUES('$name','$email', '$text', '$filaname', 1)";
-
 				$result=mysqli_query($con, $sql);
 				$this->template->view('index');
-				
 			}
 			
 		} else {
@@ -88,9 +81,7 @@ $_SESSION['session_username']=$_SESSION['session_username'];
 				
 				if (!@copy($_FILES['task_file']['tmp_name'], $uploaddir . ($query2->num_rows+1) . "_img.jpeg")){
 
-				} else {
-					//echo "<div class=\"alert alert-danger\" role=\"alert\">Не удалось загрузить файл на сервер.</div>";
-				}
+				} 
 			} else if(empty($_POST['new_file2']) && !empty($_POST['new_file'])) {
 				$query2 =mysqli_query($con, "SELECT * FROM tasks");
 				$uploaddir = 'uploads/img/';
@@ -102,10 +93,7 @@ $_SESSION['session_username']=$_SESSION['session_username'];
 				$image->save($_FILES['new_file']['tmp_name']);
 				
 				if (!@copy($_FILES['task_file']['tmp_name'], $uploaddir . ($query2->num_rows+1) . "_img.jpeg")){
-
-				} else {
-					//echo "<div class=\"alert alert-danger\" role=\"alert\">Не удалось загрузить файл на сервер.</div>";
-				}
+				} 
 			} else {
 				$filaname = "";
 			}
@@ -126,34 +114,23 @@ $_SESSION['session_username']=$_SESSION['session_username'];
 	
 	
 	function sortByName() {
-	
 		$_COOKIE['SortBy'] = 'name';
 		session_start();
 		$_SESSION['session_username']=$_SESSION['session_username'];
-		//$this->template->view('index');
-		
-		$newURL = "http://zima-task.zzz.com.ua/test/sortByName";
-		header('Location: '.$newURL);
+		$this->template->view('index');
 	}
 	
 	function sortByEmail() {
-		
 		$_COOKIE['SortBy'] = 'email';
 		session_start();
 		$_SESSION['session_username']=$_SESSION['session_username'];
-		//$this->template->view('index');
-		
-		$newURL = "http://zima-task.zzz.com.ua/test/sortByEmail";
-		header('Location: '.$newURL);
+		$this->template->view('index');
 	}
 	
 	function sortByStatus() {
 		$_COOKIE['SortBy'] = 'status';
 		session_start();
 		$_SESSION['session_username']=$_SESSION['session_username'];
-		//$this->template->view('index');
-		
-		$newURL = "http://zima-task.zzz.com.ua/test/sortByStatus";
-		header('Location: '.$newURL);
+		$this->template->view('index');
 	}
 }	
